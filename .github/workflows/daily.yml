@@ -19,6 +19,11 @@ jobs:
 
       - name: Run Program
         run: go run cmd/hoyo-daily/main.go
+        env:
+          USER_ID: ${{ secrets.USER_ID }}
+          USER_TOKEN: ${{ secrets.USER_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GAMES: ${{ vars.GAMES }}
 
   keep-alive:
     if: github.event_name == 'schedule'
