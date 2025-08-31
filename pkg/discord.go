@@ -48,13 +48,17 @@ func SendWebhookMessage(game Game, signResponse *SignResponse, infoResponse *Inf
 
 		if rewardsResponse != nil && rewardsResponse.WasSuccess() {
 			rewardToday := rewardsResponse.Data.Rewards[daysCompleted-1]
-			rewardTomorrow := rewardsResponse.Data.Rewards[daysCompleted]
 
 			eb.SetThumbnail(rewardToday.Icon)
 
 			eb.AddField("", "", true)
 			eb.AddField("Reward Today", fmt.Sprintf("%s x%d", rewardToday.Name, rewardToday.Count), true)
-			eb.AddField("Reward Tomorrow", fmt.Sprintf("%s x%d", rewardTomorrow.Name, rewardTomorrow.Count), true)
+
+			if len(rewardsResponse.Data.Rewards) > daysCompleted {
+				rewardTomorrow := rewardsResponse.Data.Rewards[daysCompleted]
+
+				eb.AddField("Reward Tomorrow", fmt.Sprintf("%s x%d", rewardTomorrow.Name, rewardTomorrow.Count), true)
+			}
 		}
 	}
 
